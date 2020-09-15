@@ -1,0 +1,25 @@
+{% extends 'base.html'  %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+     {% for message in messages %}
+         <div class="text-center alert alert-{{ message.tags }}">
+             {{ message|safe }}
+         </div>
+     {% endfor %}
+ {% endif %}
+
+<h1>Settings</h1>
+<br><br>
+
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">Update</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<h6>Home ></h6><br>
+<h1>All Posts</h1>
+<ul style="list-style-type: none;">
+{% for post in object_list %}
+    <div class="jumbotron">
+        <li><a href="{% url 'full-article' post.pk %}">{{post.title}}</a> - <i><a href="{% url 'category' post.category|slugify %}">({{ post.category }})</a></i><br>
+            <small>By {{post.author.first_name}} {{post.author.last_name}} | {{ post.post_date}}</small><br>
+            {{post.article_snippet}}...</li>
+    </div>
+{% endfor %}
+</ul>
+{% endblock %}

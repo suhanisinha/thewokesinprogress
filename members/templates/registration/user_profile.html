@@ -1,0 +1,44 @@
+{% extends 'base.html'  %}
+{% load static %}
+{% block title %}{{profile_page.user.first_name}} {{profile_page.user.last_name}}{% endblock %}
+
+{% block content %}
+<h6>Profile ></h6><br>
+
+<div class="card mb-3">
+    <div class="row no-gutters">
+        {% if profile_page.profile_pic %}
+        <div class="col-md-2">
+            <img src="{{ profile_page.profile_pic.url }}" class="card-img" alt="profile picture">
+        </div>
+        {% else %}
+        <div class="col-md-2">
+            <img src="{% static 'blog/images/default_dp.png' %}" class="card-img" alt="profile picture">
+        </div>
+        {% endif %}
+        <div class="col-md-10">
+            <div class="card-body">
+                <h5 class="card-title">{{profile_page.user.first_name}} {{profile_page.user.last_name}}</h5>
+                <p class="card-text">
+                    {% if profile_page.facebook_url %}
+                    <a href=""><i class="fab fa-facebook"></i></a>
+                    {% endif %}
+                    {% if profile_page.twitter_url %}
+                    <a href=""><i class='fab fa-twitter'></i></a>
+                    {% endif %}
+                    {% if profile_page.instagram_url %}
+                    <a href=""><i class='fab fa-instagram'></i></a>
+                    {% endif %}
+                    {% if profile_page.linkedin_url %}
+                    <a href=""><i class='fab fa-linkedin-in'></i></a>
+                    {% endif %}
+                </p>
+                <p class="card-text small">{{ profile_page.bio }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+<h3>Recent posts</h3>
+
+{% endblock %}

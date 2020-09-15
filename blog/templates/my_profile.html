@@ -1,0 +1,63 @@
+{% extends 'base.html'  %}
+{% load static %}
+{% block title %}My Profile{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<h6>My Profile ></h6><br>
+<div class="card mb-3">
+    <div class="row no-gutters">
+        {% if user.profile.profile_pic %}
+        <div class="col-md-2">
+            <img src="{{ user.profile.profile_pic.url }}" class="card-img" alt="profile picture">
+        </div>
+        {% else %}
+        <div class="col-md-2">
+            <img src="{% static 'blog/images/default_dp.png' %}" class="card-img" alt="profile picture">
+        </div>
+        {% endif %}
+        <div class="col-md-10">
+            <div class="card-body">
+                <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+                <p class="card-text">
+                    {% if user.profile.facebook_url %}
+                    <a href=""><i class="fab fa-facebook"></i></a>
+                    {% endif %}
+                    {% if user.profile.twitter_url %}
+                    <a href=""><i class='fab fa-twitter'></i></a>
+                    {% endif %}
+                    {% if user.profile.instagram_url %}
+                    <a href=""><i class='fab fa-instagram'></i></a>
+                    {% endif %}
+                    {% if user.profile.linkedin_url %}
+                    <a href=""><i class='fab fa-linkedin-in'></i></a>
+                    {% endif %}
+                </p>
+                <p class="card-text small">{{ user.profile.bio }}</p>
+                <a href="{% url 'edit-myprofile' user.profile.id %}" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br>
+<h3>Recent posts</h3>
+    <br>
+    <ul style="list-style-type: none;">
+    {% for post in object_list %}
+        {% if user.id == post.author.id %}
+            <div class="jumbotron">
+                <li><a href="{% url 'full-article' post.pk %}">{{post.title}}</a> -
+                    <i><a href="{% url 'category' post.category|slugify %}">({{ post.category }})</a></i><br>
+                    <small>By {{post.author.first_name}} {{post.author.last_name}} | {{ post.post_date}}</small><br>
+                    {{post.article_snippet}}...</li>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <h4>Please <a href="{% url 'login' %}">Login</a> to view your profile.</h4><br><br>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+{% endif %}
+{% endblock %}
