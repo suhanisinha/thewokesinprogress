@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -13,7 +14,8 @@
     <body>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'home' %}">The Wokes in Progress</a>
+            <a class="navbar-brand" href="{% url 'home' %}">The Wokes in Progress
+            </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     {% if cat_dropdown_menu %}
@@ -68,9 +70,6 @@
             {% endblock %}
         </div>
         <br>
-        <footer>
-            <nav class="navbar"></nav>
-        </footer>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
