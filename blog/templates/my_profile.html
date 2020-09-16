@@ -35,7 +35,11 @@
                     {% endif %}
                 </p>
                 <p class="card-text small">{{ user.profile.bio }}</p>
+                {% if user.profile.id %}
                 <a href="{% url 'edit-myprofile' user.profile.id %}" class="btn btn-primary">Edit</a>
+                {% else %}
+                <a href="{% url 'create-myprofile' %}" class="btn btn-primary">Edit</a>
+                {% endif %}
             </div>
         </div>
     </div>

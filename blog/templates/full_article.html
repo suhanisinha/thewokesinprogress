@@ -11,8 +11,7 @@
 
 {{ post.body|safe }}
 
-<br><br><br>
-
+<br>
 
 <form action="{% url 'like' post.pk %}" method="POST">
     {% csrf_token %}
@@ -28,8 +27,7 @@
         <small><a href="{% url 'login' %}">Login</a> to Like the post.</small>
     {% endif %}
 </form>
-
-<br><hr><br>
+<hr>
 <div class="card mb-3">
     <div class="row no-gutters">
         {% if post.author.profile.profile_pic %}
@@ -43,7 +41,7 @@
         {% endif %}
         <div class="col-md-10">
             <div class="card-body">
-                {% if user.id == post.author.profile.id %}
+                {% if user.id == post.author.profile.user.id %}
                 <a href="{% url 'my-profile' %}">
                     <h5 class="card-title">{{post.author.first_name}} {{post.author.last_name}}</h5>
                 </a>                {% else %}
@@ -70,7 +68,23 @@
         </div>
     </div>
 </div>
-<br><br>
+<br>
+<h4>Comments</h4>
+<br>
+{% if not post.comments.all %}
+    <small>No comments yet.</small>
+{% else %}
+    {% for comment in post.comments.all %}
+    <strong>{{ comment.name }}</strong>
+    <p>{{ comment.body }}</p>
+    <small>{{ comment.date }}</small>
+    <br><br>
+    {% endfor %}
+{% endif %}
+<div class="card">
+    <div class="card-header"><a href="{% url 'add-comment' post.id %}">Leave a comment</a></div>
+</div>
+<hr><br>
 
 <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 {% if user.is_authenticated %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Category, Profile
-from .forms import PostForm
+from .models import Post, Category, Profile, Comment
+from .forms import PostForm, ProfileForm, AddCommentForm
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 
@@ -80,7 +80,26 @@ def LikeView(request, pk):
 
 class EditMyProfileView(UpdateView):
     model = Profile
+    form_class = ProfileForm
     template_name = 'edit_myprofile.html'
-    fields = ['bio', 'profile_pic', 'facebook_url', 'twitter_url', 'instagram_url', 'linkedin_url']
+    # fields = ['bio', 'profile_pic', 'facebook_url', 'twitter_url', 'instagram_url', 'linkedin_url']
     success_url = reverse_lazy('my-profile')
 
+class CreateMyProfileView(CreateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'create_myprofile.html'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class AddCommentView(CreateView):
+    model = Comment
+    form_class = AddCommentForm
+    template_name = 'add_comment.html'
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('full-article', kwargs={'pk': self.kwargs['pk']})
